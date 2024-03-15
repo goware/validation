@@ -30,7 +30,7 @@ func NewOrigin(s string) (Origin, error) {
 		errs = append(errs, ErrOriginFragment)
 	}
 	if len(errs) > 0 {
-		return "", fmt.Errorf("invalid origin: %w", errors.Join(errs...))
+		return "", errors.Join(errs...)
 	}
 	return Origin(url.Scheme + "://" + url.Host), nil
 }
