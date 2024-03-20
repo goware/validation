@@ -74,3 +74,38 @@ func (o Origin) Matches(origin string) bool {
 	}
 	return true
 }
+
+func NewOrigins(s ...string) (Origins, error) {
+	origins := make(Origins, 0, len(s))
+	for _, origin := range s {
+		o, err := NewOrigin(origin)
+		if err != nil {
+			return nil, err
+		}
+		origins = append(origins, o)
+	}
+	return origins, nil
+}
+
+type Origins []Origin
+
+func (o Origins) ToStrings() []string {
+	s := make([]string, 0, len(o))
+	for _, origin := range o {
+		s = append(s, origin.String())
+	}
+	return s
+}
+
+func (o Origins) MatchAny(origin string) bool {
+	if len(o) == 0 {
+		return true
+	}
+	origin = Origin(origin).Normalize().String()
+	for _, o := range o {
+		if o.Normalize().Matches(origin) {
+			return true
+		}
+	}
+	return false
+}

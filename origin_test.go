@@ -38,5 +38,14 @@ func TestNewOrigin(t *testing.T) {
 		assert.NoError(t, err)
 		assert.Equal(t, "http://*.example.com", origin.String())
 	})
+	t.Run("valid origins", func(t *testing.T) {
+		origins, err := NewOrigins("http://example1.com", "http://example2.com")
+		assert.NoError(t, err)
+		assert.Equal(t, []string{"http://example1.com", "http://example2.com"}, origins.ToStrings())
+
+		assert.True(t, origins.MatchAny("http://example1.com"))
+		assert.True(t, origins.MatchAny("http://example2.com"))
+		assert.False(t, origins.MatchAny("http://example3.com"))
+	})
 
 }
