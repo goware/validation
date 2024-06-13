@@ -29,14 +29,17 @@ func TestNewOrigin(t *testing.T) {
 		origin, err := NewOrigin("http://example.com")
 		assert.NoError(t, err)
 		assert.Equal(t, "http://example.com", origin.String())
+		assert.Equal(t, "http", origin.Scheme())
 
 		origin, err = NewOrigin("http://example.com/")
 		assert.NoError(t, err)
 		assert.Equal(t, "http://example.com", origin.String())
+		assert.Equal(t, "http", origin.Scheme())
 
 		origin, err = NewOrigin("http://*.example.com/")
 		assert.NoError(t, err)
 		assert.Equal(t, "http://*.example.com", origin.String())
+		assert.Equal(t, "http", origin.Scheme())
 	})
 	t.Run("valid origins", func(t *testing.T) {
 		origins, err := NewOrigins("http://example1.com", "http://example2.com")
